@@ -13,11 +13,15 @@ function App() {
     msg:'',
     type:''
   })
+  const showAlert=(show=false,type=" ",msg=" ")=>{
+    setAlert({show,type,msg});
+  }
   const handleSubmit=(e)=>{
     e.preventDefault();
     console.log("clicked")
     if(!name){
       //show alert
+      showAlert(true,"danger","Enter a grocery");
     }
     else if(name && isEditing){
       //deal with edit
@@ -29,10 +33,11 @@ function App() {
       setName('');
     }
   }
+  
   return (
     <section className='section-center'>
     <form className='grocery-form' onSubmit={handleSubmit}>
-      {alert.show && <Alert/>}
+      {alert.show && <Alert {...alert}/>}
       <h3>Grocery bud </h3>
       <div className="form-control">
       <input type="text" className='grocery' placeholder='eg. Apples' value={name} onChange={(e)=>{
@@ -45,10 +50,11 @@ function App() {
       </button>
       </div>
     </form>
-    <div className="grocery-container">
+    {list.length>0 && <div className="grocery-container">
       <List items={list}/>
       <button className='clear-btn'>clear items</button>
-    </div>
+    </div>}
+    
 
     </section>
   );
